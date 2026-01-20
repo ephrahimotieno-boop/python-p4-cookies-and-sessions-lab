@@ -33,6 +33,7 @@ with app.app_context():
             content=content,
             preview=preview,
             minutes_to_read=randint(1,20),
+            date=fake.date_time_this_year(),
         )
 
         articles.append(article)

@@ -27,8 +27,19 @@ def index_articles():
 
 @app.route('/articles/<int:id>')
 def show_article(id):
-
-    pass
+    # Initialize page_views to 0 if not set, handling None case for testing
+    session['page_views'] = (session.get('page_views') or 0) + 1
+    
+    # Check if user has exceeded the limit of 3 page views
+    if session['page_views'] > 3:
+        return {'message': 'Maximum pageview limit reached'}, 401
+    
+    # Fetch and return the article
+    article = Article.query.filter_by(id=id).first()
+    if article:
+        return article.to_dict(), 200
+    else:
+        return {'message': 'Article not found'}, 404
 
 if __name__ == '__main__':
     app.run(port=5555)

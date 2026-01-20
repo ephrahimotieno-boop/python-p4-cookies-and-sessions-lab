@@ -24,6 +24,19 @@ class Article(db.Model, SerializerMixin):
     def __repr__(self):
         return f'Article {self.id} by {self.author}'
 
+    def to_dict(self):
+        from datetime import datetime
+        data = {
+            'id': self.id,
+            'author': self.author,
+            'title': self.title,
+            'content': self.content,
+            'preview': self.preview,
+            'minutes_to_read': self.minutes_to_read,
+            'date': self.date if self.date else datetime.now(),
+        }
+        return data
+
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
